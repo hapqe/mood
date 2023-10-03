@@ -5,3 +5,10 @@ body {
 * {
   font-family: 'Young Serif', serif;
 }
+
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Toggle from "./Toggle.svelte";
+
   const hour = (new Date().getTime() / 1000 / 60 / 60).toFixed(0);
 
   let moods = JSON.parse(localStorage.getItem("moods") ?? "{}");
@@ -21,7 +23,10 @@
 
 <main>
   <div class="wrapper">
-    <h1 class="shadow">how do you feel?</h1>
+    <div class="header">
+      <h1 class="shadow">how do you feel?</h1>
+      <Toggle />
+    </div>
     <div class="buttons">
       {#each Array(5).keys() as mood}
         <button on:click={() => setMood(mood)}>
@@ -41,6 +46,12 @@
 </main>
 
 <style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   h1 {
     margin: 20px;
     color: black;
@@ -82,13 +93,5 @@
 
   img {
     transition: 300ms;
-  }
-
-  /* button reset */
-  button {
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
   }
 </style>
