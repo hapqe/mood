@@ -1,7 +1,8 @@
 <script lang="ts">
-  import Toggle from "./Toggle.svelte";
+  import Toggle, { charts } from "./Toggle.svelte";
+  import Charts from "./Charts.svelte";
 
-  const hour = (new Date().getTime() / 1000 / 60 / 60).toFixed(0);
+  const hour = Math.floor(new Date().getTime() / 1000 / 60 / 60);
 
   let moods = JSON.parse(localStorage.getItem("moods") ?? "{}");
   let selectedMood = moods[hour];
@@ -23,35 +24,32 @@
 
 <main>
   <div class="wrapper">
-    <div class="header">
-      <h1 class="shadow">how do you feel?</h1>
-      <Toggle />
-    </div>
-    <div class="buttons">
-      {#each Array(5).keys() as mood}
-        <button on:click={() => setMood(mood)}>
-          <img
-            class="shadow {mood == selectedMood
-              ? 'selected'
-              : ''} {selectedMood !== undefined && mood !== selectedMood
-              ? 'fade'
-              : ''}"
-            src="moods/{mood}.svg"
-            alt="mood {mood}"
-          />
-        </button>
-      {/each}
-    </div>
+    <h1 class="shadow">how do you feel?</h1>
+    {#if !$charts}
+      <div class="buttons">
+        {#each Array(5).keys() as mood}
+          <button on:click={() => setMood(mood)}>
+            <img
+              class="shadow {mood == selectedMood
+                ? 'selected'
+                : ''} {selectedMood !== undefined && mood !== selectedMood
+                ? 'fade'
+                : ''}"
+              src="moods/{mood}.svg"
+              alt="mood {mood}"
+            />
+          </button>
+        {/each}
+      </div>
+    {:else}
+      <Charts />
+    {/if}
   </div>
+
+  <Toggle />
 </main>
 
 <style>
-  .header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
   h1 {
     margin: 20px;
     color: black;
@@ -85,10 +83,6 @@
   .buttons {
     display: grid;
     gap: 20px;
-  }
-
-  .shadow {
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
   }
 
   img {

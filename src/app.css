@@ -13,3 +13,7 @@ button {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+
+.shadow {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+}

@@ -1,37 +1,41 @@
-<script lang="ts">
-    import { writable } from "svelte/store";
+<script context="module">
+  import { writable } from "svelte/store";
 
-    const ys = [0, 10, 20, 30, 40];
-
-    const charts = writable(false);
+  export const charts = writable(false);
 </script>
 
-<button on:click={() => ($charts = !$charts)}>
+<main>
+  <button on:click={() => ($charts = !$charts)}>
     <svg
-        transform="rotate({$charts ? 0 : -90})"
-        width="50"
-        height="50"
-        viewBox="0 0 7 50"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      class="shadow"
+      transform="rotate({$charts ? 0 : -90})"
+      width="50"
+      height="50"
+      viewBox="0 0 7 50"
     >
-        {#each Array(5).keys() as i}
-            <rect
-                y={ys[i]}
-                x={$charts ? 0 : -20}
-                width={$charts ? 7 : Math.random() * 50 + 5}
-                height="7"
-                fill="black"
-            />
-        {/each}
+      {#each Array(5).keys() as i}
+        <rect
+          y={10 * i}
+          x={$charts ? 0 : -20}
+          width={$charts ? 7 : Math.random() * 50 + 5}
+          height="7"
+          fill="black"
+        />
+      {/each}
     </svg>
-</button>
+  </button>
+</main>
 
 <style>
-    svg {
-        margin: 20px;
-    }
-    * {
-        transition: 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-    }
+  svg {
+    margin: 20px;
+  }
+  * {
+    transition: 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  }
+  main {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
 </style>
