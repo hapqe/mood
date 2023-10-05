@@ -27,15 +27,13 @@
 </main>
 
 <style>
-  svg {
-    margin: 20px;
+  main {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
   * {
     transition: 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  }
-  main {
-    position: absolute;
-    right: 0;
-    bottom: 0;
   }
 </style>
