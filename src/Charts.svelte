@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { colors, moods } from "./App.svelte";
-  console.log(Object.values($moods));
+  import { scale } from "svelte/transition";
+  import Chart from "./Chart.svelte";
 
   let container: HTMLElement;
   onMount(() => {
@@ -10,29 +11,19 @@
 </script>
 
 <main bind:this={container}>
-  {#each Object.values($moods) as mood}
-    <div
-      class="shadow"
-      style="background: #{colors[mood]}; height: {100 /
-        (5 / (5 - mood))}%; width: 2rem"
-    />
+  {#each Object.entries($moods) as [date, mood]}
+    <Chart {mood} {date} />
   {/each}
 </main>
 
 <style>
   main {
     width: 100%;
-    height: 100%;
+    height: 66%;
     overflow: auto;
     overflow-y: hidden;
 
     white-space: nowrap;
     padding: 20px;
-  }
-  div {
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
-    outline: 3px solid black;
   }
 </style>

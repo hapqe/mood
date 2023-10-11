@@ -19,6 +19,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "@sveltejs/pancake": "^0.0.18"
+    "@sveltejs/pancake": "^0.0.18",
+    "svelte-inview": "^4.0.1"
   }
 }
