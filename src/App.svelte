@@ -2,7 +2,7 @@
   import { writable } from "svelte/store";
   const m = JSON.parse(localStorage.getItem("moods") ?? "{}");
 
-  const hour = Math.floor(new Date().getTime() / 1000 / 60 / 60);
+  export const hour = Math.floor(new Date().getTime() / 1000 / 60 / 60);
 
   export const moods = writable(m);
   export const selected = writable(m[hour]);
@@ -17,7 +17,7 @@
   function setMood(mood: number) {
     if ($selected === mood) {
       $selected = undefined;
-      $moods[hour] = undefined;
+      delete $moods[hour];
       localStorage.setItem("moods", JSON.stringify($moods));
       return;
     }
@@ -33,7 +33,7 @@
     {#if !$charts}
       <div class="buttons">
         {#each Array(5).keys() as mood}
-          <Mood on:click={() => setMood(mood)} index={mood} />
+          <Mood on:click={() => setMood(mood)} {mood} />
         {/each}
       </div>
     {:else}
@@ -55,16 +55,6 @@
     background-image: url("/dot.png");
     background-size: 16px;
     overflow: hidden;
-  }
-
-  .fade {
-    opacity: 0.5;
-    filter: grayscale(1) !important;
-  }
-
-  .selected {
-    transform: scale(1.2);
-    opacity: 1 !important;
   }
 
   .wrapper {

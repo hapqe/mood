@@ -1,25 +1,35 @@
 <script lang="ts">
   import { inview } from "svelte-inview";
-  import { fade, fly, scale, slide } from "svelte/transition";
-  import { colors } from "./App.svelte";
+  import { scale } from "svelte/transition";
+  import { colors, hour } from "./App.svelte";
 
   export let mood: number;
   export let date: number;
 
-  const hour = date % 24;
+  const d = new Date(date * 1000 * 60 * 60);
+  const h = d.getHours() || 24;
+
+  let info = "";
+
+  if (hour == date) info = "Now";
+
+  function random() {
+    return Math.floor(Math.random() * 5);
+  }
+
   let viewed = false;
 </script>
 
 <main
   use:inview
   on:inview_change={(e) => (viewed = e.detail.inView)}
-  style="height: {90 / (5 / (5 - mood))}%; width: 2rem"
+  style="height: {90 / (5 / (5 - (mood ?? random())))}%; width: 2rem"
 >
   {#if viewed}
     <div
-      class="wrapper shadow"
+      class="wrapper shadow {mood == null ? 'fade' : ''}"
       in:scale|global
-      style="background: #{colors[mood]};"
+      style="background: #{mood == null ? 'aaa' : colors[mood]};"
     >
       <div class="info">
         <h3
@@ -27,11 +37,11 @@
             ? "transform: translate(-40%, -100%)"
             : "transform: translateX(-40%)"}
         >
-          Yesterday
+          {info}
         </h3>
       </div>
     </div>
-    <h4 in:scale|global={{ axis: "x" }} class="shadow">{hour}</h4>
+    <h4 in:scale|global class="shadow">{h}</h4>
   {/if}
 </main>
 
@@ -56,6 +66,7 @@
   }
   h3 {
     margin-bottom: 10px;
+    height: 100%;
   }
   span {
     font-size: 0.8rem;

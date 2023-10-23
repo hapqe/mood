@@ -1,17 +1,24 @@
 <script lang="ts">
   import { draw, fade } from "svelte/transition";
-  import { colors } from "./App.svelte";
+  import { colors, selected } from "./App.svelte";
   import { charts } from "./Toggle.svelte";
-  export let index: number;
+  export let mood: number;
 </script>
 
 {#if !$charts}
-  <button on:click>
+  <button
+    on:click
+    class={$selected !== undefined
+      ? $selected == mood
+        ? "selected"
+        : "fade"
+      : ""}
+  >
     <svg width="43" height="43" viewBox="0 0 43 43">
       <path
         in:fade|global
         d="M1.5 1.5H41.5V41.5H1.5V1.5Z"
-        fill="#{colors[index]}"
+        fill="#{colors[mood]}"
         stroke-width="3"
       />
       <path
@@ -33,13 +40,12 @@
 {/if}
 
 <style>
-  .fade {
-    opacity: 0.5;
-    filter: grayscale(1) !important;
-  }
-
   .selected {
     transform: scale(1.2);
     opacity: 1 !important;
+  }
+
+  * {
+    transition: all 0.2s ease-in-out;
   }
 </style>

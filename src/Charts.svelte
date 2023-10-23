@@ -1,17 +1,31 @@
-<script lang="ts">
+<script>
   import { onMount } from "svelte";
   import { colors, moods } from "./App.svelte";
   import { scale } from "svelte/transition";
   import Chart from "./Chart.svelte";
 
-  let container: HTMLElement;
+  let container;
   onMount(() => {
     container.scrollLeft = container.scrollWidth;
   });
+
+  function fill(obj) {
+    const keys = Object.keys(obj);
+    const first = keys[0];
+    const last = keys[keys.length - 1];
+
+    const ret = {};
+
+    for (let i = first; i <= last; i++) {
+      ret[i] = obj[i] ?? null;
+    }
+
+    return ret;
+  }
 </script>
 
 <main bind:this={container}>
-  {#each Object.entries($moods) as [date, mood]}
+  {#each Object.entries(fill($moods)) as [date, mood]}
     <Chart {mood} {date} />
   {/each}
 </main>
